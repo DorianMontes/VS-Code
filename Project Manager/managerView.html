@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Manager View</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            
+            .container{overflow: hidden}
+            .tab{float: left;}
+            .tab-2{margin-left: 50px}
+            .tab-2 input{display: block;margin-bottom: 10px}
+            tr{transition:all .25s ease-in-out}
+            tr:hover{background-color:#EEE;cursor: pointer}
+            
+        </style>
+        
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-md">
+        <div class="collapse navbar-collapse" id="main-navigation">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+        <div class="container">
+            <div class="tab tab-1">
+                <table id="table" border="1">
+                    <tr>
+                        <th>Client Name</th>
+                        <th>Project Name</th>
+                        <th>Project Manager</th>
+                        <th>Project Budget</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab tab-2">
+                Client Name :<input type="text" name="cname" id="cname">
+                Project Name :<input type="text" name="pname" id="pname">
+                Project Manager :<input type="text" name="pmname" id="pmname">
+                Time in Months:<input type="number" name="price" id="price">
+                
+                <button onclick="addHtmlTableRow();">Add</button>
+                <button onclick="editHtmlTbleSelectedRow();">Edit</button>
+                <button onclick="removeSelectedRow();">Remove</button>
+            </div>
+        </div>
+        
+        <script>
+            
+            var rIndex,
+                table = document.getElementById("table");
+            
+            // check the empty input
+            function checkEmptyInput()
+            {
+                var isEmpty = false,
+                    cname = document.getElementById("cname").value,
+                    pname = document.getElementById("pname").value,
+                    pmname = document.getElementById("pmname").value,
+                    price = document.getElementById("price").value;
+            
+                if(cname === ""){
+                    alert("Client Name Cannot Be Empty");
+                    isEmpty = true;
+                }
+                else if(pname === ""){
+                    alert("Project Name Cannot Be Empty");
+                    isEmpty = true;
+                }
+                else if(pmname === ""){
+                    alert("Project Manager Cannot Be Empty");
+                    isEmpty = true;
+                }
+                else if(price === ""){
+                    alert("Price Cannot Be Empty");
+                    isEmpty = true;
+                }
+                return isEmpty;
+            }
+            
+            // add Row
+            function addHtmlTableRow()
+            {
+                // get the table by id
+                // create a new row and cells
+                // get value from input text
+                // set the values into row cell's
+                if(!checkEmptyInput()){
+                var newRow = table.insertRow(table.length),
+                    cell1 = newRow.insertCell(0),
+                    cell2 = newRow.insertCell(1),
+                    cell3 = newRow.insertCell(2),
+                    cell4 = newRow.insertCell(3),
+                    cname = document.getElementById("cname").value,
+                    pname = document.getElementById("pname").value,
+                    pmname = document.getElementById("pmname").value,
+                    price = document.getElementById("price").value;
+            
+                cell1.innerHTML = cname;
+                cell2.innerHTML = pname;
+                cell3.innerHTML = pmname;
+                cell4.innerHTML = price;
+                // call the function to set the event to the new row
+                selectedRowToInput();
+            }
+            }
+            
+            // display selected row data into input text
+            function selectedRowToInput()
+            {
+                
+                for(var i = 1; i < table.rows.length; i++)
+                {
+                    table.rows[i].onclick = function()
+                    {
+                      // get the seected row index
+                      rIndex = this.rowIndex;
+                      document.getElementById("cname").value = this.cells[0].innerHTML;
+                      document.getElementById("pname").value = this.cells[1].innerHTML;
+                      document.getElementById("pmname").value = this.cells[2].innerHTML;
+                      document.getElementById("price").value = this.cells[3].innerHTML;
+                    };
+                }
+            }
+            selectedRowToInput();
+            
+            function editHtmlTbleSelectedRow()
+            {
+                var cname = document.getElementById("cname").value,
+                    pname = document.getElementById("pname").value,
+                    pmname = document.getElementById("pmname").value,
+                    price = document.getElementById("price").value;
+               if(!checkEmptyInput()){
+                table.rows[rIndex].cells[0].innerHTML = cname;
+                table.rows[rIndex].cells[1].innerHTML = pname;
+                table.rows[rIndex].cells[2].innerHTML = pmname;
+                table.rows[rIndex].cells[3].innerHTML = price;
+              }
+            }
+            
+            function removeSelectedRow()
+            {
+                table.deleteRow(rIndex);
+                // clear input text
+                document.getElementById("cname").value = "";
+                document.getElementById("pname").value = "";
+                document.getElementById("pmname").value = "";
+                document.getElementById("price").value = "";
+            }
+        </script>
+        
+    </body>
+</html>
